@@ -1,0 +1,10 @@
+https://server.thecompletewebhosting.com:2222/
+supercod
+cKr8Y[c!TE71w3
+
+support@edwindiaz.com
+online:
+database name: supercod_cms
+<?php 
+            header("Location: comments.php");
+?>

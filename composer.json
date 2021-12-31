@@ -1,0 +1,6 @@
+{
+    "name": "john-ye/cms",
+    "require": {
+        "phpmailer/phpmailer": "^6.5"
+    }
+}

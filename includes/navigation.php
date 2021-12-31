@@ -1,4 +1,5 @@
-<?php  include "admin/functions.php"; ?>    
+<?php include "admin/functions.php"; ?>    
+<?php error_reporting(0);  ?>
 <?php session_start(); ?>
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="background-color: blue;">
         <div class="container">
@@ -16,6 +17,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                   <?php 
+                    global $connection;  
                     $query = "SELECT * FROM categories LIMIT 3";
                     $select_all_categories_query = mysqli_query($connection, $query);
                     while($row = mysqli_fetch_assoc($select_all_categories_query)){

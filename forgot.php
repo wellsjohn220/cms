@@ -54,9 +54,13 @@ include "includes/db.php";
                         $mail->isHTML(true);                                  //Set email format to HTML
                         $mail->CharSet = 'UTF-8';
                         $mail->Subject = 'Happy New Year!';
-                        $mail->Body    = 'This is the HTML message body <b>Using Auto Load JSON Test More...!</b>';
-                        $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-                    
+                        $mail->Body    = '<p>Please click to reset your password
+                        <a href="http://localhost:8080/cms/reset.php?email='.$email.' &token='. $token.'">
+                        http://localhost:8080/cms/reset.php?email='.$email.'&token='.$token.'</a>                        
+                        </p>';
+                        $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';                    
+                       
+                      
                         $mail->send();
                         echo 'Message has been sent';
                     } catch (Exception $e) {

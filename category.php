@@ -54,9 +54,9 @@
                 <!-- Pager -->
                 
                 <hr>   
-                <?php    }   }         } else{
+                <?php    }   }  } else{
                 header("Locations: index.php");
-                }         ?>              
+                }   ?>              
 
             </div>
 

@@ -35,21 +35,21 @@ include "includes/db.php";
                     $mail = new PHPMailer(true);
                     try {
                         //Server settings
-                        $mail->SMTPDebug = SMTP::DEBUG_SERVER;                     //Enable verbose debug output
+                        $mail->SMTPDebug = SMTP::DEBUG_SERVER;                   //Enable verbose debug output
                         $mail->isSMTP();                                           //Send using SMTP
                         $mail->Host       = Config::SMTP_HOST;                     //Set the SMTP server to send through
                         $mail->SMTPAuth   = true;                                  //Enable SMTP authentication
                         $mail->Username   = Config::SMTP_USER;                     //SMTP username
                         $mail->Password   = Config::SMTP_PASSWORD;                 //SMTP password
                         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-                        $mail->Port       = Config::SMTP_PORT;     //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-                     
+                        $mail->Port       = Config::SMTP_PORT;     
+                        //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`                     
                         $mail->setFrom('wellsjohn220@gmail.com', 'John');
-                        $mail->addAddress('john.y@wic.edu.au', 'Wellsjohn');     //Add a recipient
+                        $mail->addAddress($email);     //Add a recipient
                         $mail->addAddress('johnyee@warwick.edu.au');               //Name is optional
-                        $mail->addReplyTo('john.y@wic.edu.au', 'Information');
-                        $mail->addCC('cc@example.com');
-                        $mail->addBCC('bcc@example.com');
+                        // $mail->addReplyTo('john.y@wic.edu.au', 'Information');
+                        // $mail->addCC('cc@example.com');
+                        // $mail->addBCC('bcc@example.com');
                     
                         $mail->isHTML(true);                                  //Set email format to HTML
                         $mail->CharSet = 'UTF-8';
@@ -58,11 +58,11 @@ include "includes/db.php";
                         <a href="http://localhost:8080/cms/reset.php?email='.$email.' &token='. $token.'">
                         http://localhost:8080/cms/reset.php?email='.$email.'&token='.$token.'</a>                        
                         </p>';
-                        $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';                    
-                       
+                        //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';                            
                       
                         $mail->send();
-                        echo 'Message has been sent';
+                        $emailSent = true;
+                        //echo 'Message has been sent';
                     } catch (Exception $e) {
                         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
                     }
@@ -85,7 +85,7 @@ include "includes/db.php";
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="text-center">
-
+                        <?php if(!isset($emailSent)): ?>
                             <h3><i class="fa fa-lock fa-4x"></i></h3>
                             <h2 class="text-center">Forgot Password?</h2>
                             <p>You can reset your password here.</p>
@@ -107,7 +107,10 @@ include "includes/db.php";
                                 </form>
 
                             </div><!-- Body-->
-
+                            <?php else: ?>
+                                <h2>Please check your email</h2>
+                                <p>Message has been sent</p>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>

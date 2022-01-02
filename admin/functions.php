@@ -200,4 +200,18 @@ function login_user($username, $password)
      }
      return true;
  }
+ function currentUser(){
+     if(isset($_SESSION['username'])){
+         return $_SESSION['username'];
+     }
+     return false;
+ }
+ function imagePlaceholder($image=''){
+     if(!$image){
+         return 'image_hold.jpg';
+         
+     } else {
+         return $image;
+     }
+ }
 

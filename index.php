@@ -50,7 +50,8 @@
 
                 <!-- First Blog Post -->         
                 <div style="float: right; color:red; font-weight:bold;">
-                    by <a href="author_posts.php?author=<?php echo $post_author ?>&p_id=<?php echo $post_id ?>"><?php echo $post_author ?></a> on <span class="glyphicon glyphicon-time"></span> <?php echo $post_date ?>
+                    by <a href="author_posts.php?author=<?php echo $post_author ?>&p_id=<?php echo $post_id ?>">
+                    <?php echo $post_author ?></a> on <span class="glyphicon glyphicon-time"></span> <?php echo $post_date ?>
                   
                 </div>
                 <h2>
@@ -59,7 +60,7 @@
                 <hr>                
                 
                 <a href="post.php?p_id=<?php echo $post_id; ?>">
-                <img class="img-responsive" src="images/<?php echo $post_image;?>" alt="">
+                <img class="img-responsive" src="images/<?php echo imagePlaceholder($post_image);?>" alt="">
                 </a>                   
                 
                 <hr>

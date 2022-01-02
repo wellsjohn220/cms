@@ -52,7 +52,7 @@ if(isset($_POST['checkBoxArray'])){
              
       $copy_query = mysqli_query($connection, $query);
       if(!$copy_query){
-          die("Wuery Failed" . mysqli_error($connection));
+          die("Query Failed" . mysqli_error($connection));
       }
       break;
       }      
@@ -79,8 +79,15 @@ if(isset($_POST['checkBoxArray'])){
                 </tr></thead>
                 <tbody>
 <?php
-    global $connection;                        
-    $query = "SELECT * FROM posts ORDER BY post_id DESC";
+    global $connection;    
+    $user = currentUser();   
+    echo $user;
+    if (strcmp($user,'wellsjohn')==0)    {
+        $query = "SELECT * FROM posts ORDER BY post_id DESC";
+    } else {
+        $query = "SELECT * FROM posts WHERE post_user = '$user' ORDER BY post_id DESC";
+    }            
+   
     $select_posts = mysqli_query($connection, $query);
 
     while($row = mysqli_fetch_assoc($select_posts)){

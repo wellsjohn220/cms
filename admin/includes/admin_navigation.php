@@ -41,9 +41,13 @@
                 <div class="menu-item">
                 <ul class="nav navbar-nav side-nav">
                     <li>
-                        <a href="index.php"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                        <a href="index.php"><i class="fas fa-id-card"></i>&nbsp; My Data</a>
                     </li>
-                 
+                    <?php if(is_admin()):    ?>
+                            <li>
+                            <a href="dashboard.php"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                            </li>
+                    <?php endif         ?>                   
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#posts_dropdown"><i class="fa fa-fw fa-arrows-v"></i> Post Manage <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="posts_dropdown" class="collapse">

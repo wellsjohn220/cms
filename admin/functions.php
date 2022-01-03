@@ -1,10 +1,54 @@
 <?php
+//===== Database Help Function =====//
 function confirm($result){
     global $connection;
     if(!$result){
         die("Query Failed." . mysqli_error($connection));
     }
 }
+function query($query){
+    global $connection;
+    $result = mysqli_query($connection, $query);
+    confirm($result);
+    return $result;
+}
+function fetchRecords($result){
+    return mysqli_fetch_array($result);
+}
+//===== End Database Help Function =====//
+
+//===== Aunthentication Help Function =====//
+function isLoggedIn(){
+    if(isset($_SESSION['user_role'])){
+        return true;
+    }
+    return false;
+}
+function loggedInUserId(){
+    if(isLoggedIn()){
+        $result = query("SELECT * FROM userlist WHERE username='" . $_SESSION['username'] . "'");      
+        $user = fetchRecords($result);
+       
+        if(mysqli_num_rows($result)>=1){
+            return $user['user_id'];
+        }
+    }
+    //return false;
+}
+function is_admin() {
+    if(isLoggedIn()){
+        $result = query("SELECT user_role FROM userlist WHERE user_id = " . $_SESSION['user_id'] . "");        
+        $row = fetchRecords($result);
+    
+        if($row['user_role'] == 'admin'){
+            return true;
+        }else {
+            return false;
+        }
+    } 
+    return false;
+}
+//===== End Aunthentication Help Function =====//
 function insert_categories(){
     global $connection;
     if (isset($_POST['submit'])) {
@@ -130,20 +174,6 @@ function email_exists($email){
         return false;
     }
 }
-function is_admin($username) {
-    global $connection; 
-    $query = "SELECT user_role FROM userlist WHERE username = '$username'";
-    $result = mysqli_query($connection, $query);
-    confirm($result);
-
-    $row = mysqli_fetch_array($result);
-
-    if($row['user_role'] == 'admin'){
-        return 'true';
-    }else {
-        return 'false';
-    }
-}
 function redirect($location){
     header("Location:" . $location);
     exit;
@@ -154,25 +184,34 @@ function ifItIsMethod($method=null){
     }
     return false;
 }
-function isLoggedIn(){
-    if(isset($_SESSION['user_role'])){
-        return true;
-    }
-    return false;
-}
 function checkIfUserIsLoggedInAndRedirect($redirectLocation=null){
     if(isLoggedIn()){
         redirect($redirectLocation);
     }
 }
+function userLikedThisPost($post_id=''){
+    $result = query("SELECT * FROM likes WHERE user_id=" . loggedInUserId() . " AND post_id={$post_id}");
+    confirm($result);
+    return mysqli_num_rows($result) >=1 ? true: false;
+}
+function getPostlikes($post_id){
+    $result = query("SELECT * FROM likes WHERE post_id={$post_id}");
+    confirm($result);
+    echo mysqli_num_rows($result);
+}
+function get_user_posts(){
+    return $result = query("SELECT * FROM posts WHERE post_user=' . currentUser() . '");    
+}
+
 function login_user($username, $password)
  {
+     //echo ' Test login user';
      global $connection;
      $username = trim($username);
      $password = trim($password);
      $username = mysqli_real_escape_string($connection, $username);
      $password = mysqli_real_escape_string($connection, $password);
-
+    
      $query = "SELECT * FROM userlist WHERE username = '{$username}' ";
      $select_user_query = mysqli_query($connection, $query);
      if (!$select_user_query) {
@@ -185,16 +224,18 @@ function login_user($username, $password)
          $db_user_firstname = $row['user_firstname'];
          $db_user_lastname = $row['user_lastname'];
          $db_user_role = $row['user_role'];
-
+         //echo '<br />Test user name: ' . $username . ' and user id: ' . $db_user_id;
+         //$password = crypt($password,  $db_user_password);
          if (password_verify($password,$db_user_password)) {
-
+             $_SESSION['user_id'] = $db_user_id;
              $_SESSION['username'] = $db_username;
              $_SESSION['firstname'] = $db_user_firstname;
              $_SESSION['lastname'] = $db_user_lastname;
              $_SESSION['user_role'] = $db_user_role;
 
              redirect("/cms/admin");
-         } else {
+          } 
+        else {
              return false;
          }
      }

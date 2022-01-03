@@ -45,14 +45,15 @@
             $post_date = $row['post_date'];
             $post_image = $row['post_image'];
             $post_content = substr($row['post_content'],0,400);
-            $post_status = $row['post_status'];    
+            $post_status = $row['post_status'];     $post_liked = $row['likes'];
         ?>           
 
                 <!-- First Blog Post -->         
                 <div style="float: right; color:red; font-weight:bold;">
                     by <a href="author_posts.php?author=<?php echo $post_author ?>&p_id=<?php echo $post_id ?>">
                     <?php echo $post_author ?></a> on <span class="glyphicon glyphicon-time"></span> <?php echo $post_date ?>
-                  
+                    &nbsp; &nbsp; &nbsp; &nbsp;
+                    <span class="glyphicon glyphicon-thumbs-up"></span>&nbsp; <?php echo $post_liked ?> &nbsp; &nbsp;</p>
                 </div>
                 <h2>
                     <a href="post.php?p_id=<?php echo $post_id ?>"> <?php echo $post_title ?></a>

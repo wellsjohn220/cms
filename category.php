@@ -34,6 +34,7 @@
                     $post_date = $row['post_date'];
                     $post_image = $row['post_image'];
                     $post_content = substr($row['post_content'], 1,120);
+                    $post_liked = $row['likes'];
                     ?>                    
                 <h1 class="page-header">
                     View by Category                   
@@ -43,9 +44,9 @@
                 <a href="post.php?p_id=<?php echo $post_id ?>">Comment:<?php echo $post_title ?></a>
                 </h2>
                 <p class="lead">
-                    by <a href="index.php"><?php echo $post_author ?></a>
-                </p>
-                <p><span class="glyphicon glyphicon-time"></span> <?php echo $post_date ?></p>
+                    by <a href="index.php"><?php echo $post_author ?></a>  &nbsp;&nbsp;&nbsp;              
+                <span class="glyphicon glyphicon-time"></span> <?php echo $post_date ?>&nbsp;&nbsp;&nbsp;
+                <span class="glyphicon glyphicon-thumbs-up"></span>&nbsp; <?php echo $post_liked ?></p>
                 <hr>
                 <img class="img-responsive" src="images/<?php echo imagePlaceholder($post_image) ?>" alt="">
                 <hr>

@@ -20,7 +20,7 @@
                 </div>
                 <!-- /.row -->
     <div class="row">
-    <div class="col-lg-3 col-md-6">
+    <div class="col-lg-4 col-md-6">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <div class="row">
@@ -48,7 +48,7 @@
             </a>
         </div>
     </div>
-    <div class="col-lg-3 col-md-6">
+    <div class="col-lg-4 col-md-6">
         <div class="panel panel-green">
             <div class="panel-heading">
                 <div class="row">
@@ -76,7 +76,7 @@
             </a>
         </div>
     </div>
-    <div class="col-lg-3 col-md-6">
+    <!-- <div class="col-lg-3 col-md-6">
         <div class="panel panel-yellow">
             <div class="panel-heading">
                 <div class="row">
@@ -103,8 +103,8 @@
                 </div>
             </a>
         </div>
-    </div>
-    <div class="col-lg-3 col-md-6">
+    </div> -->
+    <div class="col-lg-4 col-md-6">
         <div class="panel panel-red">
             <div class="panel-heading">
                 <div class="row">
@@ -135,9 +135,11 @@
     </div>
     <div class="row">
     <?php     
-        $query = "SELECT * FROM posts ";
+        $query = "SELECT * FROM posts";
+        // WHERE post_author =" . currentUser() . "";
         $select_all_draft_post = mysqli_query($connection, $query);
         $post_draft_count = mysqli_num_rows($select_all_draft_post);
+        //$post_draft_count = get_user_posts();
         //$post_draft_count = recordCountWhere('posts','post_status','draft');;
         $query = "SELECT * FROM comments WHERE comment_status = 'unapproved'";
         $select_unapproved_comment = mysqli_query($connection, $query);

@@ -3,6 +3,39 @@
 
     <!-- Navigation -->
     <?php include('includes/navigation.php')  ?>
+<?php 
+    if(isset($_POST['liked'])){
+        //echo '<h1> It Works! </h1>';
+        //1=fetching the right post
+        $post_id = $_POST['post_id'];
+        $query = "SELECT * FROM posts WHERE post_id=$post_id";
+        $postResult = mysqli_query($connection, $query);
+        $post = mysqli_fetch_array($postResult);
+        $user_id =  $_SESSION['user_id'];
+        //$likes = $post['likes'];
+        // if(mysqli_num_rows($postResult)>=1){
+        //     echo $post['post_id'];
+        // }
+        //2=update post with likes
+        mysqli_query($connection, "UPDATE posts SET likes=likes+1 WHERE post_id=$post_id");
+        //3=create likes for post
+        mysqli_query($connection, "INSERT INTO likes(user_id, post_id) VALUES($user_id, $post_id)");
+        exit();
+    }
+    if(isset($_POST['unliked'])){      
+        $post_id = $_POST['post_id'];
+        $query = "SELECT * FROM posts WHERE post_id=$post_id";
+        $postResult = mysqli_query($connection, $query);
+        $post = mysqli_fetch_array($postResult);
+        $user_id =  $_SESSION['user_id'];      
+      
+        mysqli_query($connection, "UPDATE posts SET likes=likes-1 WHERE post_id=$post_id");
+       
+        mysqli_query($connection, "DELETE FROM likes WHERE user_id=$user_id AND post_id=$post_id");
+        exit();
+    }
+
+?>
 
     <!-- Page Content -->
     <div class="container">
@@ -45,6 +78,19 @@
                 <img class="img-responsive" src="images/<?php echo imagePlaceholder($post_image) ?>" alt="">
                 <hr>
                 <p><?php echo $post_content ?></p>  
+                <div class="row">
+                <?php 
+                    if(isLoggedIn()){  ?>
+                      <p class="pull-right">
+                        <a href="#" class="unlike"><span class="glyphicon glyphicon-thumbs-down">&nbsp;Unlike</span></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="#" class="like"><span class="glyphicon glyphicon-thumbs-up"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="I liked it"
+                        >&nbsp;Like</span></a>
+                <?php     }            ?>                     
+                    &nbsp;&nbsp;&nbsp;&nbsp;Like <?php getPostlikes($the_post_id); ?></a></p>
+                </div>
                 <?php }} else {
                     header("location: index.php");
                 }
@@ -133,5 +179,34 @@
         <hr>
 
 <?php include('./includes/footer.php')  ?>
+<script>
+    $(document).ready(function(){
+        $('.like').click(function(){
+            console.log('it works!')
+            var post_id = <?php echo $the_post_id; ?>
+            //var user_id = 42;
+            $.ajax({
+                url: "post.php?post_id=<?php echo $the_post_id; ?>",
+                type: 'post',
+                data: {
+                    'liked': 1, 'post_id': post_id//, 'user_id': user_id
+                }
+            });
+        });
+        $('.unlike').click(function(){
+            console.log('unlike works!')
+            var post_id = <?php echo $the_post_id; ?>
+            //var user_id = 42;
+            $.ajax({
+                url: "post.php?post_id=<?php echo $the_post_id; ?>",
+                type: 'post',
+                data: {
+                    'unliked': 1, 'post_id': post_id//, 'user_id': user_id
+                }
+            });
+        });
+        $("[data-toggle='tooltip']").tooltip();
+    });
+</script>
 
  

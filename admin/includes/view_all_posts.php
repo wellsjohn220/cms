@@ -42,7 +42,7 @@ if(isset($_POST['checkBoxArray'])){
                 $post_image = $row['post_image'];  
                 $post_date = $row['post_date'];
                 $post_tags = $row['post_tags'];  
-                $post_content = $row['post_content'];
+                $post_content = $row['post_content'];               
             }  
             move_uploaded_file($post_image_temp, "../images/$post_image" );       
        
@@ -75,7 +75,7 @@ if(isset($_POST['checkBoxArray'])){
 </div><br /><br />
                 <thead><tr style="background-color: lightgreen;">
                 <th><input id="selectAllBoxes" type="checkbox"></th><th>Id</th> <th>Author</th> <th>Post Title</th> <th>Category</th> <th>Status</th> 
-                    <th>In Response To</th><th>Tags</th> <th>Comment</th>  <th>Date</th><th>View</th>  <th colspan="3">Action</th>
+                    <th>In Response To</th><th>Tags</th> <th>Comment</th><th>Likes</th>  <th>Date</th><th>View</th>  <th colspan="3">Action</th>
                 </tr></thead>
                 <tbody>
 <?php
@@ -94,7 +94,7 @@ if(isset($_POST['checkBoxArray'])){
        $post_id = $row['post_id'];             $post_author = $row['post_author']; $post_user = $row['post_user'];
        $post_title = $row['post_title'];       $post_category_id = $row['post_category_id'];
        $post_status = $row['post_status'];
-       $post_image = $row['post_image'];  $post_date = $row['post_date'];
+       $post_image = $row['post_image'];  $post_date = $row['post_date'];  $post_likes = $row['likes'];
        $post_tags = $row['post_tags'];  $post_comment_count = $row['post_comment_count'];
        $post_views_count = $row['post_views_count'];
        echo "<tr>";
@@ -129,7 +129,7 @@ if(isset($_POST['checkBoxArray'])){
        $count_comments = mysqli_num_rows($send_comment_query);
 
        echo "<td><a href='post_comments.php?id={$post_id}'>{$count_comments}</a></td>";          
-       echo "<td>{$post_date}</td>";  
+       echo "<td>{$post_likes}</td>";  echo "<td>{$post_date}</td>";  
        echo "<td><a href='posts.php?reset={$post_id}'>{$post_views_count}</a></td>";  
        echo "<td><a class='btn btn-primary btn-sm' href='../post.php?p_id={$post_id}'>View Post</a></td>";  
        echo "<td><a class='btn btn-info btn-sm' href='posts.php?source=edit_post&p_id={$post_id}'>Edit</a></td>";  
